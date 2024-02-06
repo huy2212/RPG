@@ -2,20 +2,25 @@ using System;
 using UnityEngine;
 using RPG.Movement;
 using RPG.Combat;
+using System.Runtime.CompilerServices;
+using System.Security;
 
 namespace RPG.Controller
 {
     public class PlayerController : MonoBehaviour
     {
+        [SerializeField] private LayerMask targetLayer;
         private Mover mover;
         private Fighter fighter;
         private Camera mainCamera;
         private Ray ray;
+        private Health health;
 
         void Awake()
         {
             mover = GetComponent<Mover>();
             fighter = GetComponent<Fighter>();
+            health = GetComponent<Health>();
         }
 
         void Start()
@@ -25,18 +30,18 @@ namespace RPG.Controller
 
         void Update()
         {
+            if (health.IsDead) return;
             if (HandleCombat()) return;
             if (HandleMouseMovement()) return;
-            Debug.Log("Nothing to do!");
         }
 
         private bool HandleCombat()
         {
-            RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
+            RaycastHit[] hits = Physics.RaycastAll(GetMouseRay(), targetLayer);
             foreach (RaycastHit hit in hits)
             {
-                CombatTarget target = hit.transform.GetComponent<CombatTarget>();
-                if (target == null) continue;
+                Transform target = hit.transform;
+                if (!fighter.CanAttack(target)) continue;
 
                 if (Input.GetMouseButtonDown(0))
                 {

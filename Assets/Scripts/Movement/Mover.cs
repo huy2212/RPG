@@ -13,15 +13,21 @@ namespace RPG.Movement
         private Animator animator;
         private Vector3 localVelocity;
         private float forwardSpeed;
+        private Health health;
 
         void Awake()
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
             animator = GetComponent<Animator>();
+            health = GetComponent<Health>();
         }
 
         void Update()
         {
+            if (health.IsDead)
+            {
+                navMeshAgent.enabled = false;
+            }
             UpdateWalkingAnimation();
         }
 
