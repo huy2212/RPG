@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class DeleteNavMesh : MonoBehaviour
+public class ClearNavMesh : MonoBehaviour
 {
     [MenuItem("Light Brigade/Debug/Force Cleanup NavMesh")]
     public static void ForceCleanupNavMesh()

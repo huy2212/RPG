@@ -47,7 +47,6 @@ public class AttackAnimationController : MonoBehaviour
         {
             currentAmount = 0;
         }
-        Debug.Log(currentAmount);
     }
 
     private void ResetAttackType()
